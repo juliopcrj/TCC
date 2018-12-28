@@ -1,11 +1,14 @@
 from player.player import Player
 from player.constants import *
+from scenario.floor import Floor
 import pygame 
 
 p1 = Player((10,10),(10,10))
 pygame.init()
 screen = pygame.display.set_mode((600,400))
-floor = pygame.Rect((0,380),(600,20))
+floor = Floor(screen)
+floor.insert((-100,180),(800,20))
+floor.insert((100, 160), (30, 5))
 clock = pygame.time.Clock()
 
 
@@ -20,15 +23,18 @@ while(running):
         if(e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE):
             running = False
 
-
+    d = {}
     key = pygame.key.get_pressed()
     if(key[pygame.K_LEFT]):
-        p1.move({'horizontal':'left'}, [floor])
+        d['horizontal'] = 'left'
     if(key[pygame.K_RIGHT]):
-        p1.move({'horizontal':'right'}, [floor])
+        d['horizontal'] = 'right'
+    if(key[pygame.K_UP]):
+        d['jump'] = 'up'
 
-    p1.update([floor])
+    p1.move(d, floor)
+    p1.update(floor)
     screen.fill(BLACK)
+    floor.draw()
     p1.draw(screen)
-    pygame.draw.rect(screen, BLUE, floor)
     pygame.display.flip()

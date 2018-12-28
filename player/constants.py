@@ -2,8 +2,8 @@
 
 #Physics stuff
 DELTA_X     = 2 #Horizontal Movement
-GRAVITY     = 2 #Vertical gravity
-JUMP        = 8    #Starting jump speed
+GRAVITY     = 1 #Vertical gravity
+JUMP        = 10    #Starting jump speed
 MAX_V_SPEED = 10
 
 
