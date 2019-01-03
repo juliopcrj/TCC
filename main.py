@@ -1,14 +1,29 @@
 from player.player import Player
 from player.constants import *
 from scenario.floor import Floor
+from scenario.baseScenario import scenario
 import pygame 
 
 p1 = Player((10,10),(10,10))
 pygame.init()
 screen = pygame.display.set_mode((600,400))
 floor = Floor(screen)
-floor.insert((-100,180),(800,20))
-floor.insert((100, 160), (30, 5))
+
+level = [
+    "##########",
+    "#        #",
+    "#        #",
+    "#        #",
+    "#        #",
+    "#        #",
+    "#     ####",
+    "#        #",
+    "##########"
+]
+
+floor.insertMap(scenario)
+#floor.insert((-100,180),(800,20))
+#floor.insert((100, 160), (30, 5))
 clock = pygame.time.Clock()
 
 
