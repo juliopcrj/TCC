@@ -11,9 +11,9 @@ class Game(object):
         pygame.display.set_caption("Jump'n Shoot Man")
         pygame.display.set_mode((600, 400))
         self.run = True
+        clock = pygame.time.Clock()
 
     def loop(self):
-        clock = pygame.time.Clock()
         while self.run:
             for e in pygame.event.get():
                 if(e.type == pygame.QUIT):

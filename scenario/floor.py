@@ -11,10 +11,10 @@ class Floor(object):
         self.color = BLUE
         self.screen = screen
 
-    def setScreen(self, screen):
+    def set_screen(self, screen):
         self.screen = screen
 
-    def setColor(self, color):
+    def set_color(self, color):
         self.color = color
 
     # pos, size must be tuples
@@ -23,7 +23,7 @@ class Floor(object):
 
     # MAP is a string, with characters that will
     # describe the level map
-    def insertMap(self, level_map):
+    def insert_map(self, level_map):
         for ci, i in enumerate(level_map):
             for cj, j in enumerate(i):
                 if j is '#':
@@ -33,7 +33,9 @@ class Floor(object):
         for i in self.objects:
             pygame.draw.rect(self.screen, self.color, i)
 
-    def getScenario(self):
+    def get_scenario(self):
         return self.objects
 
+    def something(self):
+        
 
