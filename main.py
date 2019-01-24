@@ -1,5 +1,5 @@
 from player.player import Player
-from player.constants import *
+from constants import *
 from scenario.floor import Floor
 from scenario.baseScenario import scenario
 import pygame 

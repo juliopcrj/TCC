@@ -1,15 +1,28 @@
 import pygame
-from .constants import *
+import sys
+sys.path.append("../")
+from constants import *
 
 
 class Player(object):
 
-    def __init__(self, pos, size):
+    def __init__(self, pos=(10, 10), size=(10, 10)):
         self.rect = pygame.Rect(pos, size)
         self.color = RED
         self.vSpeed = 0
         self.falling = True
         self.screen = None
+        self.name = ""
+
+    def set_name(self, name):
+        self.name = name
+
+    def set_pos(self, pos):
+        x, y = pos
+        self.rect.left, self.rect.top = x*GRID_ROW, y*GRID_COLUMN
+
+    def set_size(self, size):
+        self.rect.width, self.rect.height = size
 
     def set_color(self, color):
         self.color = color
@@ -75,3 +88,5 @@ class Player(object):
         if not self.falling:
             self.falling = True
             self.vSpeed = JUMP*direction
+
+    # TODO: Make a 'select' controls method, for defining wether it's controlled by human or machine

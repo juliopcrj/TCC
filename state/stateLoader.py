@@ -8,7 +8,11 @@ class Controller(object):
 
     def load_states(self, state_file):
         f = open(state_file, 'r')
-        load_file = csv.reader(f)
+        fieldnames = ['p1_x', 'p1_y', 'p1_facing',
+                      'p1_horizontal', 'p1_vertical', 'p1_shoot', 'p1_score',
+                      'p2_x', 'p2_y', 'p2_facing',
+                      'p2_horizontal', 'p2_vertical', 'p2_shoot', 'p2_score']
+        load_file = csv.DictReader(f, fieldnames=fieldnames)
         for i in load_file:
             self.state.append(i)
 
@@ -28,6 +32,7 @@ class Controller(object):
         # User should define a method for
         # what the player will do when no
         # states match the current.
+        # TODO: implement this thing.
         pass
 
     def state_control(self, s):

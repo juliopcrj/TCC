@@ -20,3 +20,8 @@ GRAY     = (128,128,128)
 AQUA     = (0,255,255)
 
 
+#Screen stuff
+
+GRID_ROW    = 10
+GRID_COLUMN = 10
+
