@@ -1,6 +1,7 @@
 from player.player import Player
 from scenario.floor import Floor
 from constants import *
+from state.stateSaver import Save
 import pygame
 
 
@@ -14,6 +15,7 @@ class Game(object):
         self.clock = pygame.time.Clock()
         self.players = []
         self.scenario = Floor(self.screen)
+        self.saver = Save()
 
     # @params args: a dictionary of arguments, containing
     # "name", "pos_x"/"pos_y", and "size_x"/"size_y"
@@ -30,13 +32,40 @@ class Game(object):
 
         self.players[-1].set_screen(self.screen)
 
+    def save_state(self):
+        if len(self.players) is not 2:
+            print("Should have 2 players set. Not saving state.")
+            return
+        players_pos = [self.players[i].rect for i in range(len(self.players))]
+        players_facing = [self.players[i].facing for i in range(len(self.players))]
+        state = {
+            "p1_x": players_pos[0].x//GRID_COLUMN,
+            "p1_y": players_pos[0].y//GRID_ROW,
+            "p1_facing": players_facing[0],
+            "p1_horizontal": 0,
+            "p1_vertical": 0,
+            "p1_shoot": 0,
+            "p1_score": 0,
+            "p2_x": players_pos[1].x//GRID_COLUMN,
+            "p2_y": players_pos[1].y//GRID_ROW,
+            "p2_facing": players_facing[1],
+            "p2_horizontal": 0,
+            "p2_vertical": 0,
+            "p2_shoot": 0,
+            "p2_score": 0,
+        }
+        self.saver.write_state(state)
+
     def loop(self):
+        loops = 0
         while self.run:
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     self.run = False
+                    self.saver.save_and_quit()
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                     self.run = False
+                    self.saver.save_and_quit()
             self.clock.tick(60)
 
             self.screen.fill(BLACK)
@@ -47,6 +76,10 @@ class Game(object):
                 player.draw()
 
             pygame.display.flip()
+            loops = loops + 1
+            if loops is SAVE_FRAME:
+                loops = 0
+                self.save_state()
 
 
 if __name__ == "__main__":

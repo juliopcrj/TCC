@@ -11,6 +11,7 @@ class Player(object):
         self.color = RED
         self.vSpeed = 0
         self.falling = True
+        self.facing = "left"
         self.screen = None
         self.name = ""
 
@@ -32,8 +33,10 @@ class Player(object):
         if "horizontal" in move_dict:
             if move_dict['horizontal'] == 'left':
                 self.move_single_axis(-1, 0, colliders)
+                self.facing = "left"
             else:
                 self.move_single_axis(1, 0, colliders)
+                self.facing = "right"
         if 'jump' in move_dict:
             if move_dict['jump'] == 'down':
                 self.jump(1)
@@ -89,4 +92,4 @@ class Player(object):
             self.falling = True
             self.vSpeed = JUMP*direction
 
-    # TODO: Make a 'select' controls method, for defining wether it's controlled by human or machine
+    # TODO: Make a 'select' controls method, for defining weather it's controlled by human or machine

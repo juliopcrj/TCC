@@ -1,13 +1,13 @@
-#Constants 
+# Constants
 
-#Physics stuff
+# Physics stuff
 DELTA_X     = 2 #Horizontal Movement
 GRAVITY     = 1 #Vertical gravity
 JUMP        = 10    #Starting jump speed
 MAX_V_SPEED = 10
 
 
-#Let's play with colors :)
+# Let's play with colors :)
 BLACK    = (0,0,0)
 WHITE    = (255,255,255)
 RED      = (255,0,0)
@@ -20,8 +20,10 @@ GRAY     = (128,128,128)
 AQUA     = (0,255,255)
 
 
-#Screen stuff
+# Screen stuff
 
 GRID_ROW    = 10
 GRID_COLUMN = 10
 
+# Game Stuff
+SAVE_FRAME = 15

@@ -16,6 +16,8 @@ class Controller(object):
         for i in load_file:
             self.state.append(i)
 
+        f.close()
+
     def compare_state(self, s, _index):
         for i in range(len(s)):
             if s[i] != self.state[_index][i]:
