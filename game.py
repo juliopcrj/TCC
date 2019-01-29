@@ -2,6 +2,7 @@ from player.player import Player
 from scenario.floor import Floor
 from constants import *
 from state.stateSaver import Save
+from state.stateLoader import Controller
 import pygame
 
 
@@ -16,6 +17,7 @@ class Game(object):
         self.players = []
         self.scenario = Floor(self.screen)
         self.saver = Save()
+        self.controllers = []
 
     # @params args: a dictionary of arguments, containing
     # "name", "pos_x"/"pos_y", and "size_x"/"size_y"
@@ -29,6 +31,8 @@ class Game(object):
             self.players[-1].set_size((args["size_x"], args["size_y"]))
         if "RGB" in args:
             self.players[-1].set_color(args["RGB"])
+        if "controller" in args:
+            self.players[-1].set_controller(args["controller"])
 
         self.players[-1].set_screen(self.screen)
 

@@ -2,11 +2,20 @@ import pygame
 import sys
 sys.path.append("../")
 from constants import *
+from random import randint
 
 
 class Player(object):
 
+    """
+    Player is the base character in the game.
+    """
     def __init__(self, pos=(10, 10), size=(10, 10)):
+        """
+        Creates a new "Player" instance.
+        :param pos: a tuple containing the x,y coordinates of the top-left part of the rectangle.
+        :param size: the x,y size in pixels.
+        """
         self.rect = pygame.Rect(pos, size)
         self.color = RED
         self.vSpeed = 0
@@ -14,6 +23,16 @@ class Player(object):
         self.facing = "left"
         self.screen = None
         self.name = ""
+        self.controller = None
+        self.shots = []
+        self.cooldown = 0
+        self.alive = True
+        self.respawn_time = 0
+
+    def shoot(self):
+        if self.cooldown is 0:
+            self.shots.append({"shot": 1})
+            self.cooldown = 1
 
     def set_name(self, name):
         self.name = name
@@ -44,10 +63,9 @@ class Player(object):
                 self.jump(-1)
 
     def draw(self, screen=None):
-        if screen is None:
-            pygame.draw.rect(self.screen, self.color, self.rect)
-        else:
-            pygame.draw.rect(screen, self.color, self.rect)
+        if self.alive:
+            scr = self.screen or screen
+            pygame.draw.rect(scr, self.color, self.rect)
 
     def set_screen(self, screen):
         self.screen = screen
@@ -69,27 +87,72 @@ class Player(object):
                     self.rect.top = c.bottom
         return collided
 
-    def update(self, sc):
-        floor = sc.get_scenario()
-        if not self.falling:
-            standing = False
+    def get_shots(self):
+        """
 
-            for f in floor:
-                if f.top == self.rect.bottom and f.left < self.rect.right and f.right > self.rect.left:
-                    standing = True
-            self.falling = not standing
-        if self.falling:
-            if not self.move_single_axis(0, self.vSpeed, floor):
-                if self.vSpeed < MAX_V_SPEED:
-                    self.vSpeed += GRAVITY
-            else:
-                if self.vSpeed > 0:
-                    self.falling = False
-                self.vSpeed = 0
+        :return: the "shots" list.
+        """
+        return self.shots
+
+    def update(self, sc, enemy_shots=[]):
+        """
+        Updates (almost) every detail of the player instance
+        :param sc: the scenario to process the colisions
+        :param enemy_shots: a list of shots. This is obtained from Player.shots.
+        :return: nothing.
+        """
+        if self.alive:
+            floor = sc.get_scenario()
+            if not self.falling:
+                standing = False
+
+                for f in floor:
+                    if f.top == self.rect.bottom and f.left < self.rect.right and f.right > self.rect.left:
+                        standing = True
+                self.falling = not standing
+            if self.falling:
+                if not self.move_single_axis(0, self.vSpeed, floor):
+                    if self.vSpeed < MAX_V_SPEED:
+                        self.vSpeed += GRAVITY
+                else:
+                    if self.vSpeed > 0:
+                        self.falling = False
+                    self.vSpeed = 0
+            if self.cooldown is not 0:
+                self.cooldown += 1
+            if self.cooldown is SHOT_COOLDOWN:
+                self.cooldown = 0
+
+            if len(enemy_shots) is not 0:
+                for shot in enemy_shots:
+                    if self.rect.colliderect(shot.rect):
+                        self.die()
+                        enemy_shots.remove(shot)
+        else:
+            if self.respawn_time is RESPAWN_TIME:
+                self.respawn()
+
+    def die(self):
+        self.alive = False
+        self.respawn_time = 1
+
+    def respawn(self):
+        self.alive = True
+        self.set_pos((randint() % GRID_COLUMN, randint() % GRID_ROW))
 
     def jump(self, direction):
         if not self.falling:
             self.falling = True
             self.vSpeed = JUMP*direction
 
+    """
+    Sets the controller, defined by the user. The controller can be either a keyboard input, or am
+    automated controller, like a script-based controller.
+    """
+    def set_controller(self, controller):
+        """
+        :param controller: the controller that should be used.
+        :return: nothing
+        """
+        self.controller = controller
     # TODO: Make a 'select' controls method, for defining weather it's controlled by human or machine
