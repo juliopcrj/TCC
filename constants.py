@@ -5,6 +5,7 @@ DELTA_X     = 2 #Horizontal Movement
 GRAVITY     = 1 #Vertical gravity
 JUMP        = 10    #Starting jump speed
 MAX_V_SPEED = 10
+BULLET_SPEED = 8
 
 
 # Let's play with colors :)

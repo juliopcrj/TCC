@@ -3,6 +3,7 @@ import sys
 sys.path.append("../")
 from constants import *
 from random import randint
+from .bullet import Shot
 
 
 class Player(object):
@@ -31,7 +32,8 @@ class Player(object):
 
     def shoot(self):
         if self.cooldown is 0:
-            self.shots.append({"shot": 1})
+            speed = -1 if self.facing is "left" else 1
+            self.shots.append(Shot(self.rect.center), speed)
             self.cooldown = 1
 
     def set_name(self, name):
@@ -131,6 +133,10 @@ class Player(object):
         else:
             if self.respawn_time is RESPAWN_TIME:
                 self.respawn()
+
+        for bullet in self.shots:
+            if bullet.update():
+                self.shots.remove(bullet)
 
     def die(self):
         self.alive = False
