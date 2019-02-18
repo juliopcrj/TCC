@@ -29,6 +29,8 @@ class Player(object):
         self.cooldown = 0
         self.alive = True
         self.respawn_time = 0
+        self.movement = {}
+        self.random_timeout = 0
 
     def shoot(self):
         if self.cooldown is 0:
@@ -61,7 +63,7 @@ class Player(object):
         if 'jump' in move_dict:
             if move_dict['jump'] == 'down':
                 self.jump(1)
-            else:
+            elif move_dict['jump'] == 'up':
                 self.jump(-1)
 
     def draw(self, screen=None):
@@ -75,7 +77,7 @@ class Player(object):
     def move_single_axis(self, dx, dy, colliders):
         self.rect.x += dx*DELTA_X
         self.rect.y += dy
-        collided = False 
+        collided = False
         for c in colliders:
             if self.rect.colliderect(c):
                 collided = True
@@ -96,15 +98,22 @@ class Player(object):
         """
         return self.shots
 
-    def update(self, sc, enemy_shots=[]):
+    def update(self, sc, enemy_shots=[], move_dict = None):
         """
         Updates (almost) every detail of the player instance
         :param sc: the scenario to process the colisions
         :param enemy_shots: a list of shots. This is obtained from Player.shots.
+        :param move_dict: a dictionary of movements. that dictionary is described in the help.md.
         :return: nothing.
         """
         if self.alive:
             floor = sc.get_scenario()
+            if self.controller is "random":
+                self.random_movement()
+
+            movement = move_dict or self.movement
+            self.move(movement, sc)
+
             if not self.falling:
                 standing = False
 
@@ -161,4 +170,24 @@ class Player(object):
         :return: nothing
         """
         self.controller = controller
-    # TODO: Make a 'select' controls method, for defining weather it's controlled by human or machine
+
+    def random_movement(self):
+        if self.random_timeout is not 0:
+            self.random_timeout -= 1
+            return
+
+        self.random_timeout = RANDOM_TIMER
+        self.movement = dict()
+        move = randint(-1, 1)
+        if move is -1:
+            self.movement['horizontal'] = 'left'
+        elif move is 1:
+            self.movement['horizontal'] = 'right'
+
+        move = randint(-1, 1)
+        if move is -1:
+            self.movement['jump'] = 'up'
+
+        shoot = randint(0, 1)
+        if shoot:
+            self.movement['shoot'] = shoot

@@ -91,12 +91,14 @@ if __name__ == "__main__":
     game.add_player({"name": "1",
                      "pos_x": 2,
                      "pos_y": 2,
-                     "RBG": PURPLE})
+                     "RBG": PURPLE,
+                     "controller": "random"})
 
     game.add_player({"name": "2",
                      "pos_x": 4,
                      "pos_y": 2,
-                     "RGB": YELLOW})
+                     "RGB": YELLOW,
+                     "controller": "random"})
 
     game.scenario.insert_map()
 
