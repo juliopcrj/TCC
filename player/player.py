@@ -1,5 +1,6 @@
 import pygame
 import sys
+import math
 sys.path.append("../")
 from constants import *
 from random import randint
@@ -35,7 +36,7 @@ class Player(object):
     def shoot(self):
         if self.cooldown is 0:
             speed = -1 if self.facing is "left" else 1
-            self.shots.append(Shot(self.rect.center), speed)
+            self.shots.append(Shot(self.rect.center, speed))
             self.cooldown = 1
 
     def set_name(self, name):
@@ -65,6 +66,8 @@ class Player(object):
                 self.jump(1)
             elif move_dict['jump'] == 'up':
                 self.jump(-1)
+        if "shoot" in move_dict:
+            self.shoot()
 
     def draw(self, screen=None):
         if self.alive:
@@ -98,7 +101,7 @@ class Player(object):
         """
         return self.shots
 
-    def update(self, sc, enemy_shots=[], move_dict = None):
+    def update(self, sc, enemy_shots=[], move_dict=None):
         """
         Updates (almost) every detail of the player instance
         :param sc: the scenario to process the colisions
@@ -191,3 +194,41 @@ class Player(object):
         shoot = randint(0, 1)
         if shoot:
             self.movement['shoot'] = shoot
+
+    def rudimentary_ai_movement(self, rest=None):
+        """
+        This method defines a simple "ai" moving behavior
+        It basically makes the player follow the other one
+        :param rest: a list of the other players
+        :return: nothing.
+        """
+        if self.random_timeout is not 0:
+            self.random_timeout -= 1
+            return
+
+        self.random_timeout = RANDOM_TIMER
+        self.movement = dict()
+
+    def get_closest_enemy(self, rest=None):
+        """
+        Gets the closest enemy to the current player, in order
+        to be used in tht rudimentary_ai_movement.
+        :param rest: a list of the other players
+        :return: the closest enemy, if any. If none, then None.
+        """
+        if not rest:
+            return None
+        distance = self.get_distance(self.rect, rest[0].rect)
+        curr_enemy = rest[0]
+        for enemy in rest:
+            d = self.get_distance(self.rect, enemy.rect)
+            if d < distance:
+                distance = d
+                curr_enemy = enemy
+
+        return curr_enemy
+
+    @staticmethod
+    def get_distance(object_a, object_b):
+        return math.hypot(object_a.centerx - object_b.centerx, object_a.centery - object_b.centery)
+

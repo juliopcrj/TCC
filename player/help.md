@@ -8,7 +8,7 @@ p = Player(position, size)
 p.move(movement)
 
 ## Move_Dict
-The movment dictionary should be written with the following indexes:
+The movement dictionary should be written with the following indexes:
 "horizontal", for the horizontal movement
 "vertical", for vertical stuff, such as jumps
 "shoot", for shooting

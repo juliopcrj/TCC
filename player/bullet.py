@@ -7,7 +7,7 @@ from constants import *
 class Shot(object):
     """
     This class handles the "shots" the players fire.
-    TODO: Threading-based paralelism
+    TODO: Threading-based parallelism
     """
 
     def __init__(self, pos, speed):
