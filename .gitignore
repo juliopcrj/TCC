@@ -1,1 +1,6 @@
 *.csv
+.idea/*
+Notebooks
+__pycache__/
+*.pyc
+*.swp
