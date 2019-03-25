@@ -11,7 +11,7 @@ fieldnames = ['p1_x', 'p1_y', 'p1_facing',
                       'p2_horizontal', 'p2_vertical', 'p2_shoot', 'p2_score']
 
 # This is file buffering size. To prevent high usage of memory when
-# the game is running for a long period
+# the game is running for a long period... and it seems not to work.
 arbitrary_saving_moment = 50
 
 

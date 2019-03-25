@@ -2,7 +2,7 @@ from player.player import Player
 from scenario.floor import Floor
 from constants import *
 from state.stateSaver import Save
-from state.stateLoader import Controller
+from state.stateLoader import Controller #Will use for controlling by file
 import pygame
 
 
@@ -19,9 +19,13 @@ class Game(object):
         self.saver = Save()
         self.controllers = []
 
-    # @params args: a dictionary of arguments, containing
-    # "name", "pos_x"/"pos_y", and "size_x"/"size_y"
     def add_player(self, args):
+        """
+        This method adds players to the player pool
+        :param args: a dictionary, containing indexes "name", "pos_x", "pos_y",
+        "size_x", "size_y", "RGB", and "controller".
+        :return:
+        """
         self.players.append(Player())
         if "name" in args:
             self.players[-1].set_name(args["name"])
@@ -40,23 +44,26 @@ class Game(object):
         if len(self.players) is not 2:
             print("Should have 2 players set. Not saving state.")
             return
+
         players_pos = [self.players[i].rect for i in range(len(self.players))]
         players_facing = [self.players[i].facing for i in range(len(self.players))]
+        players_move = [self.players[i].movement for i in range(len(self.players))]
+        players_score = [self.players[i].score for i in range(len(self.players))]
         state = {
             "p1_x": players_pos[0].x//GRID_COLUMN,
             "p1_y": players_pos[0].y//GRID_ROW,
             "p1_facing": players_facing[0],
-            "p1_horizontal": 0,
-            "p1_vertical": 0,
-            "p1_shoot": 0,
-            "p1_score": 0,
+            "p1_horizontal": players_move[0]["horizontal"],
+            "p1_vertical": players_move[0]["jump"],
+            "p1_shoot": players_move[0]["shoot"] or 0,
+            "p1_score": players_score[0],
             "p2_x": players_pos[1].x//GRID_COLUMN,
             "p2_y": players_pos[1].y//GRID_ROW,
             "p2_facing": players_facing[1],
-            "p2_horizontal": 0,
-            "p2_vertical": 0,
-            "p2_shoot": 0,
-            "p2_score": 0,
+            "p2_horizontal":players_move[1]["horizontal"],
+            "p2_vertical": players_move[1]["jump"],
+            "p2_shoot": players_move[1]["shoot"] or 0,
+            "p2_score": players_score[1],
         }
         self.saver.write_state(state)
 
@@ -67,9 +74,11 @@ class Game(object):
                 if e.type == pygame.QUIT:
                     self.run = False
                     self.saver.save_and_quit()
+                    return
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                     self.run = False
                     self.saver.save_and_quit()
+                    return
             self.clock.tick(60)
 
             self.screen.fill(BLACK)

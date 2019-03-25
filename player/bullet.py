@@ -10,26 +10,27 @@ class Shot(object):
     TODO: Threading-based parallelism
     """
 
-    def __init__(self, pos, speed):
-        self.rect = pygame.Rect(pos, (1, 1))
+    def __init__(self, pos, speed, screen, scenario):
+        self.rect = pygame.Rect(pos, (2, 2))
         self.speed = speed
         self.color = FUCSIA
+        self.screen = screen
+        self.scenario = scenario
 
-    def update(self, sc=None, screen=None):
+    def update(self):
         """
         updates the bullet position, and returns if it collided.
         :param sc: the scenario
         :param screen: a pygame.surface instance
         :return: if the bullet collided in a Scenario element
         """
-        if sc is not None:
-            self.rect.x += self.speed * BULLET_SPEED
-            self.draw(screen)
-            for tile in sc:
-                if self.rect.colliderect(tile):
-                    return True
-            return False
-        return True
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect)
+        self.rect.x += self.speed * BULLET_SPEED
+        self.draw()
+        for tile in self.scenario:
+            if self.rect.colliderect(tile):
+                return True
+        return False
+
+    def draw(self):
+        pygame.draw.rect(self.screen, self.color, self.rect)

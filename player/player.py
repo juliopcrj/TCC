@@ -32,11 +32,12 @@ class Player(object):
         self.respawn_time = 0
         self.movement = {}
         self.random_timeout = 0
+        self.score = 0
 
-    def shoot(self):
+    def shoot(self, sc):
         if self.cooldown is 0:
             speed = -1 if self.facing is "left" else 1
-            self.shots.append(Shot(self.rect.center, speed))
+            self.shots.append(Shot(self.rect.center, speed, self.screen, sc))
             self.cooldown = 1
 
     def set_name(self, name):
@@ -67,7 +68,8 @@ class Player(object):
             elif move_dict['jump'] == 'up':
                 self.jump(-1)
         if "shoot" in move_dict:
-            self.shoot()
+            if move_dict['shoot'] == 1:
+                self.shoot(colliders)
 
     def draw(self, screen=None):
         if self.alive:
@@ -114,8 +116,8 @@ class Player(object):
             if self.controller is "random":
                 self.random_movement()
 
-            movement = move_dict or self.movement
-            self.move(movement, sc)
+            self.movement = move_dict or self.movement
+            self.move(self.movement, sc)
 
             if not self.falling:
                 standing = False
@@ -186,14 +188,17 @@ class Player(object):
             self.movement['horizontal'] = 'left'
         elif move is 1:
             self.movement['horizontal'] = 'right'
+        else:
+            self.movement['horizontal'] = 'center'
 
         move = randint(-1, 1)
         if move is -1:
             self.movement['jump'] = 'up'
+        else:
+            self.movement['jump'] = 'not'
 
         shoot = randint(0, 1)
-        if shoot:
-            self.movement['shoot'] = shoot
+        self.movement['shoot'] = shoot
 
     def rudimentary_ai_movement(self, rest=None):
         """
