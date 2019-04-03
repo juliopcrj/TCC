@@ -1,6 +1,6 @@
 *.csv
 .idea/*
 Notebooks
-__pycache__/
+**/__pycache__/
 *.pyc
 *.swp

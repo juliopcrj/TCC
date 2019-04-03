@@ -18,6 +18,7 @@ class Game(object):
         self.scenario = Floor(self.screen)
         self.saver = Save()
         self.controllers = []
+        self.state = {}
 
     def add_player(self, args):
         """
@@ -37,6 +38,8 @@ class Game(object):
             self.players[-1].set_color(args["RGB"])
         if "controller" in args:
             self.players[-1].set_controller(args["controller"])
+            if args['controller'] is 'state_control':
+                self.players[-1].set_state(self.state)
 
         self.players[-1].set_screen(self.screen)
 
@@ -49,7 +52,7 @@ class Game(object):
         players_facing = [self.players[i].facing for i in range(len(self.players))]
         players_move = [self.players[i].movement for i in range(len(self.players))]
         players_score = [self.players[i].score for i in range(len(self.players))]
-        state = {
+        self.state = {
             "p1_x": players_pos[0].x//GRID_COLUMN,
             "p1_y": players_pos[0].y//GRID_ROW,
             "p1_facing": players_facing[0],
@@ -65,7 +68,7 @@ class Game(object):
             "p2_shoot": players_move[1]["shoot"] or 0,
             "p2_score": players_score[1],
         }
-        self.saver.write_state(state)
+        self.saver.write_state(self.state)
 
     def loop(self):
         loops = 0
@@ -86,6 +89,7 @@ class Game(object):
 
             for player in self.players:
                 player.update(self.scenario)
+                player.set_state(self.state)
                 player.draw()
 
             pygame.display.flip()
@@ -107,7 +111,8 @@ if __name__ == "__main__":
                      "pos_x": 4,
                      "pos_y": 2,
                      "RGB": YELLOW,
-                     "controller": "random"})
+                     "controller": "state_control"})
+    game.players[-1].set_state_file("inputs.csv")
 
     game.scenario.insert_map()
 

@@ -19,7 +19,9 @@ class Controller(object):
         f.close()
 
     def compare_state(self, s, _index):
-        for i in range(len(s)):
+        if s == {}:
+            return False
+        for i in s.keys():
             if s[i] != self.state[_index][i]:
                 return False
         return True
@@ -27,6 +29,7 @@ class Controller(object):
     def match_state(self, s):
         for i in range(len(self.state)):
             if self.compare_state(s, i):
+                print("Matched state\n")
                 return i
         return -1
 
@@ -34,15 +37,18 @@ class Controller(object):
         # User should define a method for
         # what the player will do when no
         # states match the current.
+        # for now, if nothing happens, then
+        # the program will use the "random_movement"
+        # method from the player.py file
         # TODO: implement this thing.
-        pass
+        return None
 
     def state_control(self, s):
         _eq = self.match_state(s)
         if _eq is -1:
             return self.random_action()
-        move = {'horizontal': self.state[_eq]['horizontal'],
-                'vertical': self.state[_eq]['vertical'],
-                'shoot': self.state[_eq]['shoot']}
+        move = {'horizontal': self.state[_eq]['p1_horizontal'],
+                'jump': self.state[_eq]['p1_vertical'],
+                'shoot': self.state[_eq]['p1_shoot']}
         return move
 

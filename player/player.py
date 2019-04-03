@@ -5,6 +5,7 @@ sys.path.append("../")
 from constants import *
 from random import randint
 from .bullet import Shot
+from state.stateLoader import Controller
 
 
 class Player(object):
@@ -33,6 +34,8 @@ class Player(object):
         self.movement = {}
         self.random_timeout = 0
         self.score = 0
+        self.state_controller = None
+        self.state = None
 
     def shoot(self, sc):
         if self.cooldown is 0:
@@ -112,11 +115,14 @@ class Player(object):
         :return: nothing.
         """
         if self.alive:
+            move = None
             floor = sc.get_scenario()
-            if self.controller is "random":
+            if self.controller is "state_control":
+                move = self.state_controller.state_control(self.state)
+            if move is None or self.controller is "random":
                 self.random_movement()
 
-            self.movement = move_dict or self.movement
+            self.movement = move_dict or self.movement or move
             self.move(self.movement, sc)
 
             if not self.falling:
@@ -175,6 +181,11 @@ class Player(object):
         :return: nothing
         """
         self.controller = controller
+        if self.controller is "state_control":
+            self.state_controller = Controller()
+
+    def set_state_file(self, file):
+        self.state_controller.load_states(file)
 
     def random_movement(self):
         if self.random_timeout is not 0:
@@ -199,6 +210,9 @@ class Player(object):
 
         shoot = randint(0, 1)
         self.movement['shoot'] = shoot
+
+    def set_state(self, state):
+        self.state = state
 
     def rudimentary_ai_movement(self, rest=None):
         """
