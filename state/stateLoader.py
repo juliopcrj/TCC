@@ -47,6 +47,7 @@ class Controller(object):
         _eq = self.match_state(s)
         if _eq is -1:
             return self.random_action()
+        print("You got a match! Not the one you wanted, though...\n")
         move = {'horizontal': self.state[_eq]['p1_horizontal'],
                 'jump': self.state[_eq]['p1_vertical'],
                 'shoot': self.state[_eq]['p1_shoot']}
