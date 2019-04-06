@@ -94,23 +94,13 @@ class Game(object):
                 player.set_state(self.state)
                 player.draw()
 
-            for i, score in enumerate(self.scores):
-                self.draw_text(score, (10 + i*10, 25))
-
+            print(self.scores)
 
             pygame.display.flip()
             loops = loops + 1
             if loops is SAVE_FRAME:
                 loops = 0
                 self.save_state()
-
-    def draw_text(self, text, pos):
-        try:
-            font = pygame.font.SysFont("Courier New", 30)
-            text = font.render(str(text), True, WHITE)
-            screen.blit(text, pos)
-        except Exception:
-            pass
 
 
 if __name__ == "__main__":
