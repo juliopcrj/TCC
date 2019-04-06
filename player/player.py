@@ -36,6 +36,10 @@ class Player(object):
         self.score = 0
         self.state_controller = None
         self.state = None
+        self.enemy = None 
+
+    def add_enemy(self, enemy):
+        self.enemy = enemy
 
     def shoot(self, sc):
         if self.cooldown is 0:
@@ -153,14 +157,23 @@ class Player(object):
         else:
             if self.respawn_time is RESPAWN_TIME:
                 self.respawn()
+            else:
+                self.respawn_time += 1
 
         for bullet in self.shots:
-            if bullet.update():
+            res = bullet.update(self.enemy)
+            if res[0]:
                 self.shots.remove(bullet)
+            if res[1]:
+                self.kill()
+
+    def kill(self ):
+        self.enemy.die()
+        self.score += 1
 
     def die(self):
         self.alive = False
-        self.respawn_time = 1
+        self.respawn_time = 0
 
     def respawn(self):
         self.alive = True

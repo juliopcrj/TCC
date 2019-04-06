@@ -114,6 +114,8 @@ if __name__ == "__main__":
                      "controller": "state_control"})
     game.players[-1].set_state_file("inputs.csv")
 
+    game.players[0].add_enemy(game.players[1])
+    game.players[1].add_enemy(game.players[0])
     game.scenario.insert_map()
 
     game.loop()
