@@ -177,7 +177,7 @@ class Player(object):
 
     def respawn(self):
         self.alive = True
-        self.set_pos((randint() % GRID_COLUMN, randint() % GRID_ROW))
+        self.set_pos((randint(1,GRID_COLUMN-1), randint(1, GRID_ROW-1)))
 
     def jump(self, direction):
         if not self.falling:
