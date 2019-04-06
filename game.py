@@ -19,6 +19,7 @@ class Game(object):
         self.saver = Save()
         self.controllers = []
         self.state = {}
+        self.scores = [0,0]
 
     def add_player(self, args):
         """
@@ -87,16 +88,29 @@ class Game(object):
             self.screen.fill(BLACK)
             self.scenario.draw()
 
-            for player in self.players:
+            for i, player in enumerate(self.players):
+                self.scores[i] = player.score
                 player.update(self.scenario)
                 player.set_state(self.state)
                 player.draw()
+
+            for i, score in enumerate(self.scores):
+                self.draw_text(score, (10 + i*10, 25))
+
 
             pygame.display.flip()
             loops = loops + 1
             if loops is SAVE_FRAME:
                 loops = 0
                 self.save_state()
+
+    def draw_text(self, text, pos):
+        try:
+            font = pygame.font.SysFont("Courier New", 30)
+            text = font.render(str(text), True, WHITE)
+            screen.blit(text, pos)
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
