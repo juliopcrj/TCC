@@ -22,6 +22,7 @@ class Controller(object):
         if s == {}:
             return False
         for i in s.keys():
+            # TODO: something to leave room for "error" in the match.
             if s[i] != self.state[_index][i]:
                 return False
         return True
