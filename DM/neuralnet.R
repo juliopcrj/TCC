@@ -1,4 +1,5 @@
-setwd("workspace/TCC/")
+setwd("TCC/")
+
 
 stats = read.csv("output.csv")
 
@@ -30,3 +31,4 @@ prev$net.result
 
 nrow(prev$net.result)
 nrow(data.test)
+saveRDS(nn, file="neuralnetModel.rds")
