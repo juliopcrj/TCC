@@ -24,7 +24,9 @@ nn <- neuralnet(p1_shoot + p1_horizontal + p1_vertical~p1_x + p1_y + p1_score + 
                   p2_y + p2_horizontal + p2_vertical + p2_shoot,
                 data.train, hidden = 3)
 
-prev = compute(nn, data.test[,-c(4, 5, 6)])
+nn2 <- neuralnet((p1_score == 1) ~ p1_horizontal + p1_vertical + p1_shoot, data.train, hidden=3)
+
+prev = compute(nn2, data.test[,-c(4, 5, 6)])
 
 
 prev$net.result

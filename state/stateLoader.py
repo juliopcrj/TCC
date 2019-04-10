@@ -19,9 +19,11 @@ class Controller(object):
         f.close()
 
     def compare_state(self, s, _index):
+        # These will be the comparing states. Everything else is command.
+        comparable_states = ['p1_x', 'p1_y', 'p2_x', 'p2_y', 'p2_facing', 'p2_shoot']
         if s == {}:
             return False
-        for i in s.keys():
+        for i in comparable_states:
             # TODO: something to leave room for "error" in the match.
             if s[i] != self.state[_index][i]:
                 return False
