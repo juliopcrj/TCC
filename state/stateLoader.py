@@ -1,5 +1,5 @@
 import csv
-
+from .constants import MAX_ERROR
 
 class Controller(object):
 
@@ -23,8 +23,12 @@ class Controller(object):
         comparable_states = ['p1_x', 'p1_y', 'p2_x', 'p2_y', 'p2_facing', 'p2_shoot']
         if s == {}:
             return False
-        for i in comparable_states:
+        for i in comparable_states[:4]:
             # TODO: something to leave room for "error" in the match.
+            print(type(s[i]), type(self.state[_index][i]))
+            if abs(s[i] - self.state[_index][i]) > MAX_ERROR:
+                return False            
+        for i in comparable_states[4:]:
             if s[i] != self.state[_index][i]:
                 return False
         return True
