@@ -94,7 +94,6 @@ class Game(object):
                 player.set_state(self.state)
                 player.draw()
 
-            print(self.scores)
 
             pygame.display.flip()
             loops = loops + 1

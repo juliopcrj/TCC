@@ -25,7 +25,6 @@ class Controller(object):
             return False
         for i in comparable_states[:4]:
             # TODO: something to leave room for "error" in the match.
-            print(type(s[i]), type(self.state[_index][i]))
             if abs(s[i] - self.state[_index][i]) > MAX_ERROR:
                 return False            
         for i in comparable_states[4:]:

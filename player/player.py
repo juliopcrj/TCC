@@ -122,7 +122,6 @@ class Player(object):
             move = None
             floor = sc.get_scenario()
             if self.controller is "state_control":
-                print(self.state)
                 move = self.state_controller.state_control(self.state)
             if move is None or self.controller is "random":
                 self.random_movement()
