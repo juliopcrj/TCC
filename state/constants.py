@@ -1,1 +1,1 @@
-MAX_ERROR = 3
+MAX_ERROR = 50

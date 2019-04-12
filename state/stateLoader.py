@@ -25,7 +25,9 @@ class Controller(object):
             return False
         for i in comparable_states[:4]:
             # TODO: something to leave room for "error" in the match.
-            if abs(s[i] - self.state[_index][i]) > MAX_ERROR:
+            t = type(s[i])
+            err = abs(s[i] - t(self.state[_index][i]))
+            if(err > MAX_ERROR):
                 return False            
         for i in comparable_states[4:]:
             if s[i] != self.state[_index][i]:
@@ -40,13 +42,9 @@ class Controller(object):
         return -1
 
     def random_action(self):
-        # User should define a method for
-        # what the player will do when no
-        # states match the current.
-        # for now, if nothing happens, then
-        # the program will use the "random_movement"
-        # method from the player.py file
-        # TODO: implement this thing.
+        # User defined random action to happen IF there is no match
+        # If user does not implement this, the default random will 
+        # happen.
         return None
 
     def state_control(self, s):
