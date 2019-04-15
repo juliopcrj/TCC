@@ -4,5 +4,5 @@ Notebooks
 **/__pycache__/
 *.pyc
 *.swp
-.Rhistory
+Rhistory
 .RData

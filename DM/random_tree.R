@@ -25,4 +25,11 @@ amostra = sample(nrow(data), 0.7*nrow(data), replace = F)
 train_set = data[amostra,]
 test_set = data[-amostra,]
 
-RF = randomForest(formula = p1_shoot ~ ., data = train_set, importance = T)
+RF = randomForest(formula = targets ~ ., data = train_set, importance = T)
+
+RF
+
+pred_train = predict(RF, train_set, type = "class")
+table(pred_train, train_set$targets)
+# Terrible.
+
