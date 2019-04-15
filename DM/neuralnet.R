@@ -1,6 +1,4 @@
 setwd("TCC/")
-
-
 stats = read.csv("output.csv")
 
 library(neuralnet)

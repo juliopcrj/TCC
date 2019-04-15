@@ -18,6 +18,12 @@ class Controller(object):
 
         f.close()
 
+        try:
+            int(self.state[0]['p1_x'])
+        except:
+            print("removing first row")
+            del(self.state[0])
+
     def compare_state(self, s, _index):
         # These will be the comparing states. Everything else is command.
         comparable_states = ['p1_x', 'p1_y', 'p2_x', 'p2_y', 'p2_facing', 'p2_shoot']
