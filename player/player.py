@@ -42,7 +42,7 @@ class Player(object):
         self.enemy = enemy
 
     def shoot(self, sc):
-        if self.cooldown is 0:
+        if self.cooldown is 0 and len(self.shots) < MAX_SHOTS:
             speed = -1 if self.facing is "left" else 1
             self.shots.append(Shot(self.rect.center, speed, self.screen, sc))
             self.cooldown = 1
