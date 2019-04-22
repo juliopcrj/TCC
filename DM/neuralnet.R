@@ -1,8 +1,10 @@
-setwd("TCC/")
+getwd()
+setwd("workspace/TCC/")
 stats = read.csv("output.csv")
 
 library(neuralnet)
 
+stats
 data.norm = as.data.frame(sapply(stats, unclass))
 
 scale_column = function(x){
