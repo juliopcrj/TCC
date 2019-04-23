@@ -1,2 +1,2 @@
-# Graduation Thesis
-## Subject: Games, Data-Mining
+# Trabalho de graduação
+## Palavras-chave: Jogos, Educação, Mineração de Dados
