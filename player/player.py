@@ -37,6 +37,7 @@ class Player(object):
         self.state_controller = None
         self.state = None
         self.enemy = None 
+        self.anim_state = -3
 
     def add_enemy(self, enemy):
         self.enemy = enemy
@@ -69,6 +70,9 @@ class Player(object):
             else:
                 self.move_single_axis(1, 0, colliders)
                 self.facing = "right"
+            self.anim_state += 0.2
+            if self.anim_state > ANIM_STATES:
+                self.anim_state = -3
         if 'jump' in move_dict:
             if move_dict['jump'] == 'down':
                 self.jump(1)
@@ -81,7 +85,7 @@ class Player(object):
     def draw(self, screen=None):
         if self.alive:
             scr = self.screen or screen
-            pygame.draw.rect(scr, self.color, self.rect)
+            pygame.draw.rect(scr, self.color, pygame.Rect((self.rect.left, self.rect.top-abs(self.anim_state)), (self.rect.width, self.rect.height+abs(self.anim_state))))
 
     def set_screen(self, screen):
         self.screen = screen

@@ -32,6 +32,7 @@ SHOT_COOLDOWN = 45  # how much time to wait until being able to fire again
 MAX_SHOTS = 1       # how many shots each player can have currently on screen
 RESPAWN_TIME = 60   # how much time until respawn
 RANDOM_TIMER = 60   # time for the random movement choser to stick to that movement
+ANIM_STATES  = 3
 
 # State comparisson stuff
 MAX_ERROR = 3 # Error in measurement, in map squares
