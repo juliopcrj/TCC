@@ -10,10 +10,10 @@ class Shot(object):
     TODO: Threading-based parallelism
     """
 
-    def __init__(self, pos, speed, screen, scenario):
+    def __init__(self, pos, speed, screen, scenario, color):
         self.rect = pygame.Rect(pos, (2, 2))
         self.speed = speed
-        self.color = FUCSIA
+        self.color = color
         self.screen = screen
         self.scenario = scenario
 

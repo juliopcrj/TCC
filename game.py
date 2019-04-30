@@ -17,7 +17,6 @@ class Game(object):
         self.players = []
         self.scenario = Floor(self.screen)
         self.saver = Save()
-        self.controllers = []
         self.state = {}
         self.scores = [0,0]
 
@@ -107,7 +106,7 @@ if __name__ == "__main__":
     game.add_player({"name": "1",
                      "pos_x": 2,
                      "pos_y": 2,
-                     "RBG": PURPLE,
+                     "RGB": PURPLE,
                      "controller": "random"})
 
     game.add_player({"name": "2",

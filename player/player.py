@@ -45,7 +45,7 @@ class Player(object):
     def shoot(self, sc):
         if self.cooldown is 0 and len(self.shots) < MAX_SHOTS:
             speed = -1 if self.facing is "left" else 1
-            self.shots.append(Shot(self.rect.center, speed, self.screen, sc))
+            self.shots.append(Shot(self.rect.center, speed, self.screen, sc, self.color))
             self.cooldown = 1
 
     def set_name(self, name):
@@ -237,6 +237,7 @@ class Player(object):
         It basically makes the player follow the other one
         :param rest: a list of the other players
         :return: nothing.
+        TODO: get enemy's distance and calculate trajectory
         """
         if self.random_timeout is not 0:
             self.random_timeout -= 1
