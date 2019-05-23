@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from player.player import Player
 from scenario.floor import Floor
 from constants import *
@@ -78,7 +79,7 @@ class Game(object):
                     self.run = False
                     self.saver.save_and_quit()
                     return
-                if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
+                if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE: 
                     self.run = False
                     self.saver.save_and_quit()
                     return
@@ -113,8 +114,8 @@ if __name__ == "__main__":
                      "pos_x": 4,
                      "pos_y": 2,
                      "RGB": YELLOW,
-                     "controller": "state_control"})
-    game.players[-1].set_state_file("inputs.csv")
+                     "controller": "random"})
+#    game.players[-1].set_state_file("inputs.csv")
 
     game.players[0].add_enemy(game.players[1])
     game.players[1].add_enemy(game.players[0])

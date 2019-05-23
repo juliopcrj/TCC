@@ -11,7 +11,7 @@ class Shot(object):
     """
 
     def __init__(self, pos, speed, screen, scenario, color):
-        self.rect = pygame.Rect(pos, (2, 2))
+        self.rect = pygame.Rect(pos, (4, 4))
         self.speed = speed
         self.color = color
         self.screen = screen
