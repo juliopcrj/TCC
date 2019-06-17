@@ -100,6 +100,7 @@ class Game(object):
             if loops is SAVE_FRAME:
                 loops = 0
                 self.save_state()
+                print("P1 = " + str(self.scores[0]) + " P2 = " + str(self.scores[1]))
 
 
 if __name__ == "__main__":
@@ -108,14 +109,14 @@ if __name__ == "__main__":
                      "pos_x": 2,
                      "pos_y": 2,
                      "RGB": PURPLE,
-                     "controller": "random"})
+                     "controller": "random"}) # random or state_control
 
     game.add_player({"name": "2",
                      "pos_x": 4,
                      "pos_y": 2,
                      "RGB": YELLOW,
-                     "controller": "random"})
-#    game.players[-1].set_state_file("inputs.csv")
+                     "controller": "state_control"})
+    game.players[-1].set_state_file("inputs.csv")
 
     game.players[0].add_enemy(game.players[1])
     game.players[1].add_enemy(game.players[0])
