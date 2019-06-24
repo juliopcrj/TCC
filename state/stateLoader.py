@@ -1,10 +1,12 @@
 import csv
-from .constants import MAX_ERROR
+from .constants import MAX_ERROR, RANDOM_TIMER
+from random import randint
 
 class Controller(object):
 
     def __init__(self):
         self.state = []
+        self.random_timeout = 0
 
     def load_states(self, state_file):
         f = open(state_file, 'r')
@@ -26,7 +28,7 @@ class Controller(object):
 
     def compare_state(self, s, _index):
         # These will be the comparing states. Everything else is command.
-        comparable_states = ['p1_x', 'p1_y', 'p2_x', 'p2_y', 'p2_facing', 'p2_shoot']
+        comparable_states = ['p1_x', 'p1_y', 'p2_x', 'p2_y',]
         if s == {}:
             return False
         for i in comparable_states[:4]:
@@ -36,7 +38,8 @@ class Controller(object):
             if(err > MAX_ERROR):
                 return False            
         for i in comparable_states[4:]:
-            if s[i] != self.state[_index][i]:
+            
+            if s[i] != self.state[_index][i] and self.state[_index][i] != 0:
                 return False
         return True
 
@@ -51,15 +54,37 @@ class Controller(object):
         # User defined random action to happen IF there is no match
         # If user does not implement this, the default random will 
         # happen.
-        return None
+        if self.random_timeout is not 0:
+            self.random_timeout -= 1
+            return
+
+        self.random_timeout = RANDOM_TIMER
+        movement = dict()
+        move = randint(-1, 1)
+        if move is -1:
+            movement['horizontal'] = 'left'
+        elif move is 1:
+            movement['horizontal'] = 'right'
+        else:
+            movement['horizontal'] = 'center'
+
+        move = randint(-1, 1)
+        if move is -1:
+            movement['jump'] = 'up'
+        else:
+            movement['jump'] = 'not'
+
+        shoot = randint(0, 1)
+        movement['shoot'] = shoot
+        return movement
 
     def state_control(self, s):
         _eq = self.match_state(s)
-        if _eq is -1:
-            return self.random_action()
-        print("You got a match! Not the one you wanted, though...\n")
-        move = {'horizontal': self.state[_eq]['p1_horizontal'],
-                'jump': self.state[_eq]['p1_vertical'],
-                'shoot': self.state[_eq]['p1_shoot']}
-        return move
+        movement = self.random_action()
+        if movement is None:
+            return
+        if _eq is not -1:
+            print("You got a match! Not the one you wanted, though...\n")
+            movement['shoot'] = 1
+        return movement
 

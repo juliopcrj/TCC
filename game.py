@@ -117,14 +117,14 @@ if __name__ == "__main__":
                      "pos_x": 2,
                      "pos_y": 2,
                      "RGB": PURPLE,
-                     "controller": "random"}) # random or state_control
+                     "controller": "state_control"}) # random or state_control
+    game.players[-1].set_state_file("inputs.csv")
 
     game.add_player({"name": "2",
                      "pos_x": 4,
                      "pos_y": 2,
                      "RGB": YELLOW,
-                     "controller": "state_control"})
-    game.players[-1].set_state_file("inputs.csv")
+                     "controller": "random"})
 
     game.players[0].add_enemy(game.players[1])
     game.players[1].add_enemy(game.players[0])
