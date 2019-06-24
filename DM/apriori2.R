@@ -39,3 +39,7 @@ right = as(rhs(rules), "list")
 
 score = right == "p1_score=1"
 score = left[score]
+df = data.frame(inspect(rules))
+pscore = df$rhs == "{p1_score=1}"
+notnull = df$lhs != "{}"
+relevant = df[pscore & notnull,]
