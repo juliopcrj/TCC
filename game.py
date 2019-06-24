@@ -12,7 +12,7 @@ class Game(object):
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Jump'n Shoot Man")
-        self.screen = pygame.display.set_mode((600, 400))
+        self.screen = pygame.display.set_mode((600, 450))
         self.run = True
         self.clock = pygame.time.Clock()
         self.players = []
@@ -20,6 +20,7 @@ class Game(object):
         self.saver = Save()
         self.state = {}
         self.scores = [0,0]
+        self.font = pygame.font.Font('freesansbold.ttf', 32)
 
     def add_player(self, args):
         """
@@ -94,13 +95,20 @@ class Game(object):
                 player.set_state(self.state)
                 player.draw()
 
+            # Displaying text score in game
+            text = self.font.render('P1 = ' + str(self.scores[0]) + "              P2 = " + str(self.scores[1]), True, RED)
+            textRect = text.get_rect()
+            textRect.center = (300, 425)
+            self.screen.blit(text, textRect)
 
             pygame.display.flip()
             loops = loops + 1
             if loops is SAVE_FRAME:
                 loops = 0
                 self.save_state()
-                print("P1 = " + str(self.scores[0]) + " P2 = " + str(self.scores[1]))
+                # print("P1 = " + str(self.scores[0]) + " P2 = " + str(self.scores[1]))
+
+
 
 
 if __name__ == "__main__":
