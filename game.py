@@ -5,7 +5,7 @@ from constants import *
 from state.stateSaver import Save
 from state.stateLoader import Controller #Will use for controlling by file
 import pygame
-
+import os.path
 
 class Game(object):
 
@@ -84,6 +84,12 @@ class Game(object):
                     self.run = False
                     self.saver.save_and_quit()
                     return
+
+            if MAX_SCORE > 0:
+                for i in self.scores:
+                    if i >=MAX_SCORE:
+                        self.run = False
+
             self.clock.tick(60)
 
             self.screen.fill(BLACK)
@@ -113,18 +119,35 @@ class Game(object):
 
 if __name__ == "__main__":
     game = Game()
-    game.add_player({"name": "1",
-                     "pos_x": 2,
-                     "pos_y": 2,
-                     "RGB": PURPLE,
-                     "controller": "state_control"}) # random or state_control
-    game.players[-1].set_state_file("inputs.csv")
 
-    game.add_player({"name": "2",
-                     "pos_x": 4,
-                     "pos_y": 2,
-                     "RGB": YELLOW,
-                     "controller": "random"})
+    if os.path.isfile("inputs_p1.csv"):
+        game.add_player({"name": "1",
+                         "pos_x": 2,
+                         "pos_y": 2,
+                         "RGB": PURPLE,
+                         "controller": "state_control"}) # random or state_control
+        game.players[-1].set_state_file("inputs_p1.csv")
+    else:
+        game.add_player({"name": "1",
+                         "pos_x": 2,
+                         "pos_y": 2,
+                         "RGB": PURPLE,
+                         "controller": "random"}) # random or state_control
+
+    if os.path.isfile("inputs_p2.csv"):
+        game.add_player({"name": "2",
+                         "pos_x": 4,
+                         "pos_y": 2,
+                         "RGB": YELLOW,
+                         "controller": "state_control"})
+        game.players[-1].set_state_file("inputs_p2.csv")
+    else:
+        game.add_player({"name": "2",
+                         "pos_x": 4,
+                         "pos_y": 2,
+                         "RGB": YELLOW,
+                         "controller": "random"})
+
 
     game.players[0].add_enemy(game.players[1])
     game.players[1].add_enemy(game.players[0])

@@ -46,7 +46,6 @@ class Controller(object):
     def match_state(self, s):
         for i in range(len(self.state)):
             if self.compare_state(s, i):
-                print("Matched state\n")
                 return i
         return -1
 
@@ -84,7 +83,6 @@ class Controller(object):
         if movement is None:
             return
         if _eq is not -1:
-            print("You got a match! Not the one you wanted, though...\n")
             movement['shoot'] = 1
         return movement
 

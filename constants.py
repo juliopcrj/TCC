@@ -36,3 +36,6 @@ ANIM_STATES  = 3
 
 # State comparisson stuff
 MAX_ERROR = 3 # Error in measurement, in map squares
+
+# Game run stuff
+MAX_SCORE = 5
