@@ -32,7 +32,7 @@ sel_data = sel_data[was_score,]
 sel_data <- data.frame(sapply(sel_data, as.factor))
 
 require("arules")
-rules = apriori(sel_data, parameter = list(conf=0.05, supp=0.1, target="rules"))
+rules = apriori(sel_data, parameter = list(conf=0.05, supp=0.05, target="rules"))
 
 left = as(lhs(rules), "list")
 right = as(rhs(rules), "list")

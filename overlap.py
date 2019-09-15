@@ -59,4 +59,4 @@ while(running):
         r3.size = size
         pygame.draw.rect(screen, (255,0,255),r3)
     pygame.display.flip()
-    clock.tick(30)
+    clock.tick(10)
